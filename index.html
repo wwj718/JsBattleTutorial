@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>JsBattle Tutorial</title>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>-->
+    <script src="./pixi.min.js"></script>
+    <script type="text/javascript" src="js/jsbattle.min.js"></script>
+  </head>
+  <body>
+    <canvas id="battlefield" style="width: 900px; height: 600px"/>
+    <script type="text/javascript">
+      // put your code here...
+    </script>
+
+
+
+<script type="text/javascript">
+  tank_code = `
+importScripts('lib/tank.js');
+
+tank.init(function(settings, info) {
+
+})
+tank.loop(function(state, control) {
+  control.THROTTLE = 0.5;
+  control.TURN = 1;
+});
+`  //es6语法
+
+  var canvas = document.getElementById('battlefield');
+  var renderer = JsBattle.createRenderer('debug');
+  renderer.init(canvas);
+
+  var simulation = JsBattle.createSimulation(renderer);
+  simulation.init(900, 600);
+  for(var i=0; i < 2; i++) { // 初始化5辆坦克
+    var ai = JsBattle.createAiDefinition();
+    //ai.fromFile('test'); // fromFile不需要codeworker.js
+    // aiDefinition.fromCode(tankName, code, initData); initData是settings ，参考 info.initData
+    ai.fromCode("wwj",tank_code); // fromCode需要codeworker.js
+    simulation.addTank(ai); // ?初始化的位置如何确定
+  }
+  simulation.start();
+
+  /*
+  获取坦克: simulation._allTankList
+  tank1 = simulation._allTankList[0]
+  //tank1.[id/name/]
+  tank1.state //包含位置
+  */
+
+</script>
+
+  </body>
+</html>
